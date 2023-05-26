@@ -1,6 +1,66 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+import RestClient from '../Rest Api/RestClient';
+import AppUrl from '../Rest Api/AppUrl';
 
 const Menu = () => {
+
+    const [Data, setData] = useState([]);
+
+    useEffect(() => {
+        RestClient.GetRequest(AppUrl.MainNav).then((result) => {
+            setData(result);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, [])
+
+
+    const MyView = Data ? (Data.map(myItem => (
+
+        <li className="nav-item">
+            <a href="#" className="nav-link">
+                {/* <i className="nav-icon fas fa-circle" /> */}
+                <p>
+                    {myItem.main_nav}
+                    <i className="right fas fa-angle-left" />
+                </p>
+            </a>
+            <ul className="nav nav-treeview">
+                <li className="nav-item">
+                    <a href="#" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>
+                            Level 2
+                            <i className="right fas fa-angle-left" />
+                        </p>
+                    </a>
+                    <ul className="nav nav-treeview">
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="far fa-dot-circle nav-icon" />
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="far fa-dot-circle nav-icon" />
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="#" className="nav-link">
+                                <i className="far fa-dot-circle nav-icon" />
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+    ))
+    ) : null;
+
     return (
         <Fragment>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -29,46 +89,7 @@ const Menu = () => {
                     </div>
                     <nav className="mt-2">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li className="nav-item">
-                                <a href="#" className="nav-link">
-                                    <i className="nav-icon fas fa-circle" />
-                                    <p>
-                                        Level 1
-                                        <i className="right fas fa-angle-left" />
-                                    </p>
-                                </a>
-                                <ul className="nav nav-treeview">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link">
-                                            <i className="far fa-circle nav-icon" />
-                                            <p>
-                                                Level 2
-                                                <i className="right fas fa-angle-left" />
-                                            </p>
-                                        </a>
-                                        <ul className="nav nav-treeview">
-                                            <li className="nav-item">
-                                                <a href="#" className="nav-link">
-                                                    <i className="far fa-dot-circle nav-icon" />
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a href="#" className="nav-link">
-                                                    <i className="far fa-dot-circle nav-icon" />
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a href="#" className="nav-link">
-                                                    <i className="far fa-dot-circle nav-icon" />
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                           {MyView}
                         </ul>
                     </nav>
                 </div>
