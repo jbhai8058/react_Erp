@@ -7,7 +7,8 @@ const Menu = () => {
     const [Data, setData] = useState([]);
 
     useEffect(() => {
-        RestClient.GetRequest(AppUrl.MainNav).then((result) => {
+        RestClient.GetRequest(AppUrl.asidebar).then((result) => {
+            console.log(result)
             setData(result);
         }).catch((error) => {
             console.log(error);
@@ -15,56 +16,48 @@ const Menu = () => {
     }, [])
 
 
-    const MyView = Data ? (Data.map(myItem => (
-
-        <li className="nav-item">
-            <a href="#" className="nav-link">
-                {/* <i className="nav-icon fas fa-circle" /> */}
-                <p>
-                    {myItem.main_nav}
-                    <i className="right fas fa-angle-left" />
-                </p>
-            </a>
-            <ul className="nav nav-treeview">
-                <li className="nav-item">
+    const renderMenuItems = () => {
+        if (Data && Data.mainNavModules && Data.subMainNavModules && Data.asidebarData) {
+            return Data.mainNavModules.map(mainNavItem => (
+                <li className="nav-item" key={mainNavItem.id}>
                     <a href="#" className="nav-link">
-                        <i className="far fa-circle nav-icon" />
                         <p>
-                            Level 2
+                            {mainNavItem.module_name}
                             <i className="right fas fa-angle-left" />
                         </p>
                     </a>
                     <ul className="nav nav-treeview">
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">
-                                <i className="far fa-dot-circle nav-icon" />
-                                <p>Level 3</p>
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">
-                                <i className="far fa-dot-circle nav-icon" />
-                                <p>Level 3</p>
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">
-                                <i className="far fa-dot-circle nav-icon" />
-                                <p>Level 3</p>
-                            </a>
-                        </li>
+                        {Data.subMainNavModules.map(subNavItem => (
+                            <li className="nav-item" key={subNavItem.id}>
+                                <a href="#" className="nav-link">
+                                    <p>
+                                        {subNavItem.sub_module_name}
+                                        <i className="right fas fa-angle-left" />
+                                    </p>
+                                </a>
+                                <ul className="nav nav-treeview">
+                                    {Data.asidebarData.map(asidebarItem => (
+                                        <li className="nav-item" key={asidebarItem.id}>
+                                            <a href="#" className="nav-link">
+                                                <p>{asidebarItem.vr_title}</p>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        ))}
                     </ul>
                 </li>
-            </ul>
-        </li>
-
-    ))
-    ) : null;
+            ));
+        } else {
+            return null;
+        }
+    };
 
     return (
         <Fragment>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
-                <a href="index3.html" className="brand-link">
+                <a href="" className="brand-link">
                     <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
                     <span className="brand-text font-weight-light">AdminLTE 3</span>
                 </a>
@@ -89,7 +82,7 @@ const Menu = () => {
                     </div>
                     <nav className="mt-2">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                           {MyView}
+                            {renderMenuItems()}
                         </ul>
                     </nav>
                 </div>
