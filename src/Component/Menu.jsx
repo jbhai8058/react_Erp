@@ -7,13 +7,37 @@ const Menu = () => {
     const [Data, setData] = useState([]);
 
     useEffect(() => {
-        RestClient.GetRequest(AppUrl.asidebar).then((result) => {
+        RestClient.GetRequest(AppUrl.mainnav).then((result) => {
             console.log(result)
             setData(result);
         }).catch((error) => {
             console.log(error);
         })
     }, [])
+
+
+
+    const MyView = Data ? (Data.map(myItem => (
+        <li className="nav-item" key={myItem.id}>
+            <a href="#" className="nav-link">
+                <p>
+                    {myItem.module_name}
+                    <i className="right fas fa-angle-left" />
+                </p>
+            </a>
+            <ul className="nav nav-treeview">
+                <li className="nav-item">
+                    <a href="#" className="nav-link">
+                        <p>
+                            {myItem.sub_module_name}
+                            <i className="right fas fa-angle-left" />
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    ))
+    ) : null
 
 
     const renderMenuItems = () => {
@@ -82,7 +106,7 @@ const Menu = () => {
                     </div>
                     <nav className="mt-2">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            {renderMenuItems()}
+                            {MyView}
                         </ul>
                     </nav>
                 </div>

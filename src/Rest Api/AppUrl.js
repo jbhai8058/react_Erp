@@ -2,7 +2,7 @@ class AppUrl {
 
     static BaseURL = 'http://localhost/react-erp-api/public/api';
 
-    static asidebar     = this.BaseURL + '/asidebar';
+    static mainnav     = this.BaseURL + '/mainnav';
 
 }
 
