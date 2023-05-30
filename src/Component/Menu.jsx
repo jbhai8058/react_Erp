@@ -1,48 +1,32 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import RestClient from '../Rest Api/RestClient';
 import AppUrl from '../Rest Api/AppUrl';
+import axios from 'axios';
 
 const Menu = () => {
 
-    const [Data, setData] = useState([]);
+
+
+    const [data, setData] = useState([]);
+
+    const [asidebarData, setAsidebarData] = useState([]);
 
     useEffect(() => {
-        RestClient.GetRequest(AppUrl.mainnav).then((result) => {
-            console.log(result)
-            setData(result);
-        }).catch((error) => {
-            console.log(error);
-        })
-    }, [])
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/asidebar/1');
+                setAsidebarData(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-
-
-    const MyView = Data ? (Data.map(myItem => (
-        <li className="nav-item" key={myItem.id}>
-            <a href="#" className="nav-link">
-                <p>
-                    {myItem.module_name}
-                    <i className="right fas fa-angle-left" />
-                </p>
-            </a>
-            <ul className="nav nav-treeview">
-                <li className="nav-item">
-                    <a href="#" className="nav-link">
-                        <p>
-                            {myItem.sub_module_name}
-                            <i className="right fas fa-angle-left" />
-                        </p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    ))
-    ) : null
-
+        fetchData();
+    }, []);
 
     const renderMenuItems = () => {
-        if (Data && Data.mainNavModules && Data.subMainNavModules && Data.asidebarData) {
-            return Data.mainNavModules.map(mainNavItem => (
+        if (data && data.mainNavModules && data.asidebarData) {
+            return data.mainNavModules.map(mainNavItem => (
                 <li className="nav-item" key={mainNavItem.id}>
                     <a href="#" className="nav-link">
                         <p>
@@ -51,23 +35,11 @@ const Menu = () => {
                         </p>
                     </a>
                     <ul className="nav nav-treeview">
-                        {Data.subMainNavModules.map(subNavItem => (
-                            <li className="nav-item" key={subNavItem.id}>
+                        {data.asidebarData.map(asidebarItem => (
+                            <li className="nav-item" key={asidebarItem.id}>
                                 <a href="#" className="nav-link">
-                                    <p>
-                                        {subNavItem.sub_module_name}
-                                        <i className="right fas fa-angle-left" />
-                                    </p>
+                                    <p>{asidebarItem.vr_title}</p>
                                 </a>
-                                <ul className="nav nav-treeview">
-                                    {Data.asidebarData.map(asidebarItem => (
-                                        <li className="nav-item" key={asidebarItem.id}>
-                                            <a href="#" className="nav-link">
-                                                <p>{asidebarItem.vr_title}</p>
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
                             </li>
                         ))}
                     </ul>
@@ -77,6 +49,7 @@ const Menu = () => {
             return null;
         }
     };
+
 
     return (
         <Fragment>
@@ -106,11 +79,13 @@ const Menu = () => {
                     </div>
                     <nav className="mt-2">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            {MyView}
+                            {/* {renderMenuItems()} */}
                         </ul>
                     </nav>
                 </div>
             </aside>
+
+         
 
         </Fragment>
     )
