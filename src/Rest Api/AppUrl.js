@@ -1,8 +1,8 @@
 class AppUrl {
 
-    static BaseURL = 'http://localhost/react-erp-api/public/api';
+    static BaseURL = 'http://127.0.0.1:8000/api';
 
-    static mainnav     = this.BaseURL + '/mainnav';
+    static data     = this.BaseURL + '/data';
 
 }
 

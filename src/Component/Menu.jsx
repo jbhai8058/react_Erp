@@ -7,48 +7,52 @@ const Menu = () => {
 
 
 
-    const [data, setData] = useState([]);
-
-    const [asidebarData, setAsidebarData] = useState([]);
+    const [data, setData] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/api/asidebar/1');
-                setAsidebarData(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        RestClient.GetRequest(AppUrl.data).then((response) => {
+            setData(response);
+            console.log(response)
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, [])
 
-        fetchData();
-    }, []);
 
-    const renderMenuItems = () => {
-        if (data && data.mainNavModules && data.asidebarData) {
-            return data.mainNavModules.map(mainNavItem => (
-                <li className="nav-item" key={mainNavItem.id}>
-                    <a href="#" className="nav-link">
-                        <p>
-                            {mainNavItem.module_name}
-                            <i className="right fas fa-angle-left" />
-                        </p>
-                    </a>
-                    <ul className="nav nav-treeview">
-                        {data.asidebarData.map(asidebarItem => (
-                            <li className="nav-item" key={asidebarItem.id}>
-                                <a href="#" className="nav-link">
-                                    <p>{asidebarItem.vr_title}</p>
+    const MyView = data ? (data.map(myItem => (
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                {/* <i class="far fa-circle nav-icon"></i> */}
+                <p>
+                    {myItem.module_name}
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            {myItem.SubmainnavModules.map((submainnavModule => (
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            {/* <i class="far fa-dot-circle nav-icon"></i> */}
+                            <p>{submainnavModule.sub_module_name}</p>
+                            <i class="right fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    {submainnavModule.Asidebars.map((asidebars => (
+                        
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    {/* <i class="far fa-dot-circle nav-icon"></i> */}
+                                    <p>{asidebars.vr_title}</p>
                                 </a>
                             </li>
-                        ))}
-                    </ul>
-                </li>
-            ));
-        } else {
-            return null;
-        }
-    };
+                    )))}
+                </ul>
+            )))
+            }
+        </li>
+    ))
+    ) : null;
+
 
 
     return (
@@ -79,13 +83,13 @@ const Menu = () => {
                     </div>
                     <nav className="mt-2">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            {/* {renderMenuItems()} */}
+                            {MyView}
                         </ul>
                     </nav>
                 </div>
             </aside>
 
-         
+
 
         </Fragment>
     )
