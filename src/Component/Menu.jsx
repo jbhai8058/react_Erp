@@ -33,8 +33,10 @@ const Menu = () => {
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             {/* <i class="far fa-dot-circle nav-icon"></i> */}
-                            <p>{submainnavModule.sub_module_name}</p>
-                            <i class="right fas fa-angle-left"></i>
+                            <p>
+                                {submainnavModule.sub_module_name}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
                     </li>
                     {submainnavModule.Asidebars.map((asidebars => (
