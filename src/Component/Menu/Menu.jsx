@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import RestClient from '../Rest Api/RestClient';
-import AppUrl from '../Rest Api/AppUrl';
+import RestClient from '../../Rest Api/RestClient';
+import AppUrl from '../../Rest Api/AppUrl';
 import axios from 'axios';
 
 const Menu = () => {
@@ -12,48 +12,50 @@ const Menu = () => {
     useEffect(() => {
         RestClient.GetRequest(AppUrl.data).then((response) => {
             setData(response);
-            console.log(response)
         }).catch((error) => {
             console.log(error);
         })
     }, [])
 
 
-    const MyView = data ? (data.map(myItem => (
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                {/* <i class="far fa-circle nav-icon"></i> */}
-                <p>
-                    {myItem.module_name}
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            {myItem.SubmainnavModules.map((submainnavModule => (
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            {/* <i class="far fa-dot-circle nav-icon"></i> */}
-                            <p>
-                                {submainnavModule.sub_module_name}
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                    </li>
-                    {submainnavModule.Asidebars.map((asidebars => (
-                        
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    {/* <i class="far fa-dot-circle nav-icon"></i> */}
-                                    <p>{asidebars.vr_title}</p>
-                                </a>
-                            </li>
-                    )))}
+    const MyView = data ? (
+        data.map(myItem => (
+            <li className="nav-item" key={myItem.id}>
+                <a href="#" className="nav-link">
+                    {/* <i className="far fa-circle nav-icon"></i> */}
+                    <p>
+                        {myItem.module_name}
+                        <i className="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul className="nav nav-treeview">
+                    {myItem.SubmainnavModules.map(submainnavModule => (
+                        <li className="nav-item" key={submainnavModule.id}>
+                            <a href="#" className="nav-link">
+                                {/* <i className="far fa-dot-circle nav-icon"></i> */}
+                                <p>
+                                    {submainnavModule.sub_module_name}
+                                    <i className="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul className="nav nav-treeview">
+                                {submainnavModule.Asidebars.map(asidebars => (
+                                    <li className="nav-item" key={asidebars.id}>
+                                        <a href="#" className="nav-link">
+                                            {/* <i className="far fa-dot-circle nav-icon"></i> */}
+                                            <p>{asidebars.vr_title}</p>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </li>
+                    ))}
                 </ul>
-            )))
-            }
-        </li>
-    ))
+            </li>
+        ))
     ) : null;
+
+
 
 
 
@@ -83,7 +85,7 @@ const Menu = () => {
                             </div>
                         </div>
                     </div>
-                    <nav className="mt-2">
+                    <nav className="mt-3">
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             {MyView}
                         </ul>
