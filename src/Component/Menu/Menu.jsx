@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import RestClient from '../../Rest Api/RestClient';
 import AppUrl from '../../Rest Api/AppUrl';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Menu = () => {
 
@@ -21,7 +21,7 @@ const Menu = () => {
     const MyView = data ? (
         data.map(myItem => (
             <li className="nav-item" key={myItem.id}>
-                <a href="#" className="nav-link">
+                <a href="" className="nav-link">
                     {/* <i className="far fa-circle nav-icon"></i> */}
                     <p>
                         {myItem.module_name}
@@ -31,7 +31,7 @@ const Menu = () => {
                 <ul className="nav nav-treeview">
                     {myItem.SubmainnavModules.map(submainnavModule => (
                         <li className="nav-item" key={submainnavModule.id}>
-                            <a href="#" className="nav-link">
+                            <a href="" className="nav-link">
                                 {/* <i className="far fa-dot-circle nav-icon"></i> */}
                                 <p>
                                     {submainnavModule.sub_module_name}
@@ -41,10 +41,10 @@ const Menu = () => {
                             <ul className="nav nav-treeview">
                                 {submainnavModule.Asidebars.map(asidebars => (
                                     <li className="nav-item" key={asidebars.id}>
-                                        <a href="#" className="nav-link">
+                                        <Link to={asidebars.vr_link} className="nav-link">
                                             {/* <i className="far fa-dot-circle nav-icon"></i> */}
                                             <p>{asidebars.vr_title}</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

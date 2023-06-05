@@ -4,15 +4,17 @@ import Header from '../../Component/Header/Header'
 import Dashboard from '../../Component/Dashboard/Dashboard'
 import Footer from '../../Component/Footer/Footer'
 
-const MainPage = () => {
+const HomePage = () => {
   return (
     <Fragment>
-        <Header />
-        <Menu />
+      <Header />
+      <Menu />
+      <div className="content-wrapper">
         <Dashboard />
-        <Footer />
+      </div>
+      <Footer />
     </Fragment>
   )
 }
 
-export default MainPage
+export default HomePage

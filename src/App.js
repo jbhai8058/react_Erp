@@ -1,12 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
 import { Fragment } from 'react';
-import MainPage from './Pages/Main Page/MainPage';
+import AppRouter from './Router/AppRouter/AppRouter';
 
 function App() {
   return (
     <Fragment>
-      <MainPage />
+      <AppRouter />
     </Fragment>
   );
 }
