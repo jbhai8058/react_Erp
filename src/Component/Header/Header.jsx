@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 
-const Header = () => {
+const Header = (props) => {
     return (
         <Fragment>
+            <title>{props.title}</title>
             <nav className="main-header navbar navbar-expand navbar-white navbar-light">
 
                 <ul className="navbar-nav">

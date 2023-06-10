@@ -7,12 +7,12 @@ import Footer from '../../Component/Footer/Footer'
 const Itempage = () => {
   return (
     <Fragment>
-        <Header />
-        <Menu />
-        <div className="content-wrapper">
+      <Header />
+      <Menu />
+      <div className="content-wrapper">
         <Item />
-        </div>
-        <Footer />
+      </div>
+      <Footer />
     </Fragment>
   )
 }
