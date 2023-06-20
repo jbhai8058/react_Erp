@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
-import { Nav } from 'react-bootstrap';
 import { Link, Route, BrowserRouter as Router, Routes, } from 'react-router-dom';
 import Pill1 from './pill1';
+import { Nav } from 'react-bootstrap';
 
 const Item = () => {
 
