@@ -1,7 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import { Link, Route, BrowserRouter as Router, Routes, } from 'react-router-dom';
 import Pill1 from './pill1';
-import { Nav } from 'react-bootstrap';
+import { Button, Nav } from 'react-bootstrap';
+import RestClient from '../../Rest Api/RestClient';
+import AppUrl from '../../Rest Api/AppUrl';
 
 const Item = () => {
 
@@ -11,12 +13,27 @@ const Item = () => {
     setActiveKey(selectedKey);
   };
 
+  const Save = () => {
+
+    let id = document.getElementById('id').value;
+    let item_name = document.getElementById('item_name').value;
+    let description = document.getElementById('description').value;
+
+    let jsonObject = {id : id , item_name: item_name, description: description }
+
+    RestClient.PostRequest(AppUrl.item, JSON.stringify(jsonObject)).then((result => {
+      alert(result);
+    })).catch((error) => {
+      console.log(error);
+    })
+
+  }
+
 
   // Define content for each nav pills key
   const contentMap = {
     "1": <Pill1 />,
     "2": "Content for Pill 2",
-    "3": "Content for Pill 3",
   };
 
   // Get the content based on the active key
@@ -33,7 +50,11 @@ const Item = () => {
                   <h1 className='text-sm text-md text-lg font-weight-bold text-uppercase'>Add Item</h1>
                 </div>
                 <div className="col-sm-12 col-md-12 col-lg-8">
-                  <div className="float-right"></div>
+                  <div className="float-right">
+                    <Button variant="primary" type="submit" onClick={Save}>
+                      Send
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,9 +74,6 @@ const Item = () => {
                       </Nav.Item>
                       <Nav.Item>
                         <Nav.Link eventKey="2">Pill 2</Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link eventKey="3">Pill 3</Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </div>
