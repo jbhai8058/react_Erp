@@ -10,8 +10,13 @@ const Pill1 = () => {
 
   useEffect(() => {
     // Fetch the maximum ID when the component mounts
-    getmaxid()
+    getmaxid();
+    fetchitem();
   }, []);
+
+  const handleChange = (event) => {
+    setid(event.target.value);
+  };
 
   const getmaxid = () => {
 
@@ -28,12 +33,47 @@ const Pill1 = () => {
 
   }
 
+
+    document.getElementById('id').addEventListener('change', function () {
+      fetchitem();
+    });
+
+
+
+  const fetchitem = () => {
+
+    let id = document.getElementById('id').value;
+
+    let jsonObject = { id: id }
+
+    RestClient.PostRequest(AppUrl.fetchitem, JSON.stringify(jsonObject)).then((result => {
+      populatedata(result);
+      console.log(result)
+    })).catch((error) => {
+      console.log(error);
+    })
+
+  }
+
+  const populatedata = (data) => {
+    if (data && data.length > 0) {
+      document.getElementById('id').value = data[0]['id'];
+      document.getElementById('item_name').value = data[0]['item_name'];
+      document.getElementById('description').value = data[0]['description'];
+    } else {
+      document.getElementById('id').value = '';
+      document.getElementById('item_name').value = '';
+      document.getElementById('description').value = '';
+    }
+  };
+
+
   return (
     <Fragment>
       <Form>
         <Form.Group>
           <Form.Label>Id</Form.Label>
-          <Form.Control id='id' onChange={id} type="number" placeholder="Id" />
+          <Form.Control id='id' value={id} onChange={handleChange} type="number" placeholder="Id" />
         </Form.Group> <br />
         <Form.Group>
           <Form.Label>Item Name</Form.Label>
