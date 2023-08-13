@@ -5,49 +5,27 @@ import AppUrl from '../../Rest Api/AppUrl';
 import { useState } from 'react';
 
 const Pill1 = () => {
-  const [inputId, setInputId] = useState(''); // User input
-  const [id, setId] = useState('');
-  const [itemName, setItemName] = useState('');
-  const [description, setDescription] = useState('');
 
-  const handleChange = (event) => {
-    setInputId(event.target.value);
-  };
+  const [id, setid] = useState();
 
   useEffect(() => {
-    fetchitem();
+    // Fetch the maximum ID when the component mounts
     getmaxid();
+    fetchitem();
   }, []);
 
-  const fetchitem = () => {
-    let jsonObject = { id: inputId };
-
-    RestClient.PostRequest(AppUrl.fetchitem, JSON.stringify(jsonObject))
-      .then((result) => {
-        console.log(result);
-        if (result && result.length > 0) {
-          const data = result[0];
-          setId(data.id);
-          setItemName(data.item_name);
-          setDescription(data.description);
-        } else {
-          setId('');
-          setItemName('');
-          setDescription('');
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleChange = (event) => {
+    setid(event.target.value);
   };
-
 
   const getmaxid = () => {
 
-    let jsonObject = { id: inputId  }
+    let id = document.getElementById('id').value;
+
+    let jsonObject = { id: id }
 
     RestClient.PostRequest(AppUrl.getmaxid, JSON.stringify(jsonObject)).then((result => {
-      setId(result);
+      setid(result)
       console.log(result)
     })).catch((error) => {
       console.log(error);
@@ -55,38 +33,59 @@ const Pill1 = () => {
 
   }
 
+
+    document.getElementById('id').addEventListener('change', function () {
+      fetchitem();
+    });
+
+
+
+  const fetchitem = () => {
+
+    let id = document.getElementById('id').value;
+
+    let jsonObject = { id: id }
+
+    RestClient.PostRequest(AppUrl.fetchitem, JSON.stringify(jsonObject)).then((result => {
+      populatedata(result);
+      console.log(result)
+    })).catch((error) => {
+      console.log(error);
+    })
+
+  }
+
+  const populatedata = (data) => {
+    if (data && data.length > 0) {
+      document.getElementById('id').value = data[0]['id'];
+      document.getElementById('item_name').value = data[0]['item_name'];
+      document.getElementById('description').value = data[0]['description'];
+    } else {
+      document.getElementById('id').value = '';
+      document.getElementById('item_name').value = '';
+      document.getElementById('description').value = '';
+    }
+  };
+
+
   return (
     <Fragment>
       <Form>
         <Form.Group>
           <Form.Label>Id</Form.Label>
-          <Form.Control
-            value={inputId}
-            onChange={handleChange}
-            type="number"
-            placeholder="Id"
-          />
+          <Form.Control id='id' value={id} onChange={handleChange} type="number" placeholder="Id" />
         </Form.Group> <br />
         <Form.Group>
           <Form.Label>Item Name</Form.Label>
-          <Form.Control
-            value={itemName}
-            type="text"
-            placeholder="Item Name"
-          />
+          <Form.Control id='item_name' type="text" placeholder="Item Name" />
         </Form.Group> <br />
         <Form.Group>
           <Form.Label>Description</Form.Label>
-          <Form.Control
-            value={description}
-            as='textarea'
-            rows={3}
-            placeholder="Item Description"
-          />
-        </Form.Group>
+          <Form.Control id='description' as='textarea' rows={3} placeholder="Item Description" />
+        </Form.Group> <br />
       </Form>
     </Fragment>
   )
 }
 
-export default Pill1;
+export default Pill1
