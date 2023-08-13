@@ -11,7 +11,10 @@ const Pill1 = () => {
   useEffect(() => {
     // Fetch the maximum ID when the component mounts
     getmaxid();
-    fetchitem();
+    const element = document.getElementById('id');
+    if (element) {
+      element.addEventListener('change', fetchitem);
+    }
   }, []);
 
   const handleChange = (event) => {
@@ -26,19 +29,11 @@ const Pill1 = () => {
 
     RestClient.PostRequest(AppUrl.getmaxid, JSON.stringify(jsonObject)).then((result => {
       setid(result)
-      console.log(result)
     })).catch((error) => {
       console.log(error);
     })
 
   }
-
-
-    document.getElementById('id').addEventListener('change', function () {
-      fetchitem();
-    });
-
-
 
   const fetchitem = () => {
 
@@ -47,8 +42,12 @@ const Pill1 = () => {
     let jsonObject = { id: id }
 
     RestClient.PostRequest(AppUrl.fetchitem, JSON.stringify(jsonObject)).then((result => {
-      populatedata(result);
-      console.log(result)
+
+      if (result == false) {
+        alert('not found');
+      } else {
+        populatedata(result);
+      }
     })).catch((error) => {
       console.log(error);
     })
@@ -57,7 +56,7 @@ const Pill1 = () => {
 
   const populatedata = (data) => {
     if (data && data.length > 0) {
-      document.getElementById('id').value = data[0]['id'];
+      document.getElementById('id').value = data[0]['item_id'];
       document.getElementById('item_name').value = data[0]['item_name'];
       document.getElementById('description').value = data[0]['description'];
     } else {
