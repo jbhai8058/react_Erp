@@ -8,6 +8,9 @@ import Reset from '../Component/Reset'
 import Profile from '../Component/Profile'
 import Nav from './Nav'
 import axios from 'axios'
+import HomePage from '../Pages/Main Page/HomePage'
+import Itempage from '../Pages/ItemPage/Itempage'
+import DepartmentPage from '../Pages/DepartmentPage/DepartmentPage'
 
 export default function Header() {
 
@@ -36,7 +39,10 @@ export default function Header() {
                     <Route  path='/register' element={<Register user={user} setUser={setUser} />} />
                     <Route  path='/forget' element={<Forget />} />
                     <Route  path='/reset/:id' element={<Reset />} />
-                    <Route exact  path='/profile' element={<Profile user={user} />} />
+                    <Route  path='/profile' element={<Profile user={user} />} />
+                    <Route  path='/dashboard' element={<HomePage />} />
+                    <Route  path='/item' element={<Itempage />} />
+                    <Route  path='/deparment' element={<DepartmentPage />} />
                 </Routes>
             </Fragment>
         </Router>

@@ -3,9 +3,15 @@ import RestClient from '../../Rest Api/RestClient';
 import AppUrl from '../../Rest Api/AppUrl';
 import { Link } from 'react-router-dom';
 
-const Menu = () => {
+const Menu = (props) => {
 
-
+    let name;
+    let email;
+  
+    if (props.user) {
+      name = props.user.name;
+      email = props.user.email;
+    }
 
     const [data, setData] = useState(null);
 

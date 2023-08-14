@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-const Header = (props) => {
+const Headers = (props) => {
     return (
         <Fragment>
             <title>{props.title}</title>
@@ -52,4 +52,4 @@ const Header = (props) => {
     )
 }
 
-export default Header
+export default Headers

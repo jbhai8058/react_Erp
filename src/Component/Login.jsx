@@ -33,7 +33,7 @@ const Login = (props) => {
   }
 
   if (loggedIn) {
-    return <Navigate to='/' />;
+    return <Navigate to='/dashboard' />;
   }
 
   // Show Error Message
