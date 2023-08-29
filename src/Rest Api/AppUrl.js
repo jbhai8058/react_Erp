@@ -6,6 +6,7 @@ class AppUrl {
     static item      = this.BaseURL + '/itemsave';
     static getmaxid  = this.BaseURL + '/getmaxid';
     static fetchitem = this.BaseURL + '/fetchitem';
+    static deleteitem = this.BaseURL + '/deleteitem';
 
 }
 

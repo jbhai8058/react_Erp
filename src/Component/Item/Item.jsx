@@ -30,6 +30,21 @@ const Item = () => {
   }
 
 
+  const deleteitem = () => {
+
+    let id = document.getElementById('id').value;
+
+    let jsonObject = { id: id }
+
+    RestClient.PostRequest(AppUrl.deleteitem, JSON.stringify(jsonObject)).then((result => {
+      console.log(result);
+    })).catch((error) => {
+      console.log(error);
+    })
+
+  }
+
+
   // Define content for each nav pills key
   const contentMap = {
     "1": <Pill1 />,
@@ -53,6 +68,9 @@ const Item = () => {
                   <div className="float-right">
                     <Button variant="primary" type="submit" onClick={Save}>
                       Send
+                    </Button>
+                    <Button variant="primary" type="submit" onClick={deleteitem}>
+                      delete
                     </Button>
                   </div>
                 </div>

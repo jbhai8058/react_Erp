@@ -1,5 +1,5 @@
-import React, { Fragment, useState,useEffect } from 'react'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import React, { Fragment, useState, useEffect } from 'react'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Home from '../Component/Home'
 import Login from '../Component/Login'
 import Register from '../Component/Register'
@@ -14,37 +14,40 @@ import DepartmentPage from '../Pages/DepartmentPage/DepartmentPage'
 
 export default function Header() {
 
-    const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
+
+  const storedToken = localStorage.getItem('token');
+
+  useEffect(() => {
+    axios.get('/currentuser')
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
 
-    useEffect(() => {
-        axios.get('/currentuser')
-          .then((response) => {
-            setUser(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, []);
-
-
-    return (
-        <Router>
-            <Fragment>
-                <Nav user={user} setUser={setUser} />
-                <Routes>
-                    {/* <Route exact path='/' element={<Home />} /> */}
-                    <Route exact path='/' element={<Home />} />
-                    <Route  path='/login' element={<Login user={user} setUser={setUser} />} />
-                    <Route  path='/register' element={<Register user={user} setUser={setUser} />} />
-                    <Route  path='/forget' element={<Forget />} />
-                    <Route  path='/reset/:id' element={<Reset />} />
-                    <Route  path='/profile' element={<Profile user={user} />} />
-                    <Route  path='/dashboard' element={<HomePage />} />
-                    <Route  path='/item' element={<Itempage />} />
-                    <Route  path='/deparment' element={<DepartmentPage />} />
-                </Routes>
-            </Fragment>
-        </Router>
-    )
+  return (
+    <Router>
+      <Fragment>
+        <Nav user={user} setUser={setUser} />
+        <Routes>
+          {/* <Route exact path='/' element={<Home />} /> */}
+          <Route exact path='/' element={<Home />} />
+          {/* <Route path='/login' element={<Login user={user} setUser={setUser} />} />
+          <Route path='/register' element={<Register user={user} setUser={setUser} />} /> */}
+          <Route path='/forget' element={<Forget />} />
+          <Route path='/reset/:id' element={<Reset />} />
+          <Route path='/profile' element={<Profile user={user} />} />
+          <Route path='/dashboard' element={!storedToken ? <Navigate to="/login" /> : <HomePage />} />
+          <Route path='/item' element={<Itempage />} />
+          <Route path='/deparment' element={<DepartmentPage />} />
+          <Route path='/login' element={storedToken ? <Navigate to="/dashboard" /> : <Login user={user} setUser={setUser} />} />
+          <Route path='/register' element={storedToken ? <Navigate to="/dashboard" /> : <Register user={user} setUser={setUser} />} />
+        </Routes>
+      </Fragment>
+    </Router>
+  )
 }
