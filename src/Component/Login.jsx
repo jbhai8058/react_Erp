@@ -20,7 +20,8 @@ const Login = (props) => {
 
     axios.post('/login', data)
       .then((response) => {
-        localStorage.setItem('token', response.data.token);
+        const token = response.data.token;
+        localStorage.setItem('token', JSON.stringify(token)); // Convert to JSON string
         setLoggedIn(true);
         props.setUser(response.data.user);
         setmessage(response.data.message);
@@ -31,6 +32,7 @@ const Login = (props) => {
       });
 
   }
+
 
   if (loggedIn) {
     return <Navigate to='/dashboard' />;
