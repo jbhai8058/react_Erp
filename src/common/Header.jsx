@@ -45,7 +45,7 @@ export default function Header() {
           <Route path='/item' element={<Itempage />} />
           <Route path='/deparment' element={<DepartmentPage />} />
           <Route path='/login' element={storedToken ? <Navigate to="/dashboard" /> : <Login user={user} setUser={setUser} />} />
-          <Route path='/register' element={storedToken ? <Navigate to="/dashboard" /> : <Register user={user} setUser={setUser} />} />
+          <Route path='/register' element={!storedToken ? <Navigate to="/login" /> : <Register user={user} setUser={setUser} />} />
         </Routes>
       </Fragment>
     </Router>
