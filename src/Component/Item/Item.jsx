@@ -5,7 +5,7 @@ import { Button, Nav } from 'react-bootstrap';
 import RestClient from '../../Rest Api/RestClient';
 import AppUrl from '../../Rest Api/AppUrl';
 
-const Item = () => {
+const Item = ({ onItemAdded }) => {
 
   const [activeKey, setActiveKey] = useState("1");
 
@@ -23,6 +23,8 @@ const Item = () => {
 
     RestClient.PostRequest(AppUrl.item, JSON.stringify(jsonObject)).then((result => {
       alert(result);
+      // Call the callback function to update the items in the Department component
+      onItemAdded({ item_id: id, item_name, description });
     })).catch((error) => {
       console.log(error);
     })
