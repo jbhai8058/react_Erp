@@ -9,6 +9,8 @@ class AppUrl {
     static deleteitem = this.BaseURL + '/deleteitem';
     static getitems   = this.BaseURL + '/fetchitems';
 
+    static savedepartment = this.BaseURL + '/departmentsave';
+
 }
 
 export default AppUrl

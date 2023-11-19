@@ -42,10 +42,11 @@ export default function Header() {
           <Route path='/reset/:id' element={<Reset />} />
           <Route path='/profile' element={<Profile user={user} />} />
           <Route path='/dashboard' element={!storedToken ? <Navigate to="/login" /> : <HomePage />} />
-          <Route path='/item' element={<Itempage />} />
+          <Route path='/item' element={!storedToken ? <Navigate to="/login" /> : <Itempage />} />
+          <Route path='/department' element={!storedToken ? <Navigate to="/login" /> : <DepartmentPage />} />
           <Route path='/deparment' element={<DepartmentPage />} />
           <Route path='/login' element={storedToken ? <Navigate to="/dashboard" /> : <Login user={user} setUser={setUser} />} />
-          <Route path='/register' element={storedToken ? <Navigate to="/dashboard" /> : <Register user={user} setUser={setUser} />} />
+          <Route path='/register' element={!storedToken ? <Navigate to="/login" /> : <Register user={user} setUser={setUser} />} />
         </Routes>
       </Fragment>
     </Router>
