@@ -109,6 +109,74 @@ const Department = () => {
     // Append the row to the table body
     tableBody.append(newRow);
 
+    // Handle double-click on the table row
+    newRow.on('dblclick', function (event) {
+      // Check if the double-click is on the item name column
+      if ($(event.target).hasClass('item_name')) {
+        // Replace the text with a Select2 dropdown
+        const $item_name = $(event.target);
+        const itemId = $item_name.data('item_id');
+
+        // Create a container for Select2 and the plus button
+        const $container = $('<div class="select2-container">');
+
+        // Create Select2 dropdown
+        const $select = $('<select class="form-control select2">');
+        $select.append('<option value="" selected>Select an item</option>');
+
+        items.forEach((item) => {
+          $select.append(`<option value="${item.item_id}">${item.item_name}</option>`);
+        });
+
+        // Set the initial selected value based on the current item
+        $select.val(itemId);
+
+        // Append the Select2 to the container
+        $container.append($select);
+
+        // Create the plus button
+        const $plusButton = $('<button class="plus-button">+</button>');
+
+        // Append the plus button to the container
+        $container.append($plusButton);
+
+        // Replace the text with the container
+        $item_name.html($container);
+
+        // Initialize Select2
+        $select.select2();
+
+        // Handle change event on the Select2 dropdown
+        $select.on('change', function () {
+          const selectedItemId = $(this).val();
+          // You can handle the change event as needed, e.g., update the data attribute
+          $item_name.data('item_id', selectedItemId);
+        });
+
+        // Handle click event on the plus button
+        $plusButton.on('click', function (event) {
+          // Stop the propagation of the click event to prevent it from triggering the double-click event
+          event.stopPropagation();
+
+          // Open the modal when the plus button is clicked
+          handleShow();
+
+          // Set up a callback function to be executed when the modal data is added
+          const modalCallback = (newItem) => {
+            // Update the Select2 dropdown
+            $item_name.data('item_id', newItem.item_id);
+            $item_name.text(newItem.item_name);
+
+            // Close the modal
+            handleClose();
+          };
+
+          // Pass the callback function to the modal component
+          Item({ onItemAdded: modalCallback });
+        });
+      }
+    });
+
     button1.on('click', function () {
       // Handle edit button click (you can implement your edit logic here)
       console.log('Edit button clicked for row:', rowCount);
