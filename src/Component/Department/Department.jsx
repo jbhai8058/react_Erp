@@ -7,7 +7,6 @@ import 'select2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Button, Modal } from 'react-bootstrap';
-import Pill1 from '../Item/pill1';
 import Item from '../Item/Item';
 
 
